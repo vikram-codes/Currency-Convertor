@@ -12,11 +12,9 @@ function App() {
 
   function handleCurrFrom(e) {
     setCurrFrom(e.target.value);
-    console.log(e.target.value);
   }
   function handleCurrTo(e) {
     setCurrTo(e.target.value);
-    console.log(e.target.value);
   }
   function handleAmount(e) {
     setAmount(e.target.value);
@@ -59,9 +57,13 @@ function App() {
         </option>
       </select>
       <p>
-        <>
-          {amount} {currFrom} is {output} {currTo}
-        </>
+        {!isLoading ? (
+          <>
+            {amount} {currFrom} is {output} {currTo}
+          </>
+        ) : (
+          ""
+        )}
       </p>
     </>
   );
