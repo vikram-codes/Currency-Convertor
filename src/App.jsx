@@ -1,15 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 // `https://api.frankfurter.app/latest?amount=${}&from=${}&to=${}`
 
 function App() {
-  const [amount, setAmount] = useState("");
-  const [currFrom, setCurrFrom] = useState("");
-  const [currTo, setCurrTo] = useState("");
-  const tempCurrFrom = "USD";
-  const tempCurrTo = "INR";
-  const tempCurrAmount = 100;
+  const [amount, setAmount] = useState(1);
+  const [currFrom, setCurrFrom] = useState("USD");
+  const [currTo, setCurrTo] = useState("INR");
+  const [output, setOutput] = useState("");
 
   function handleCurrFrom(e) {
     setCurrFrom(e.target.value);
@@ -19,20 +17,29 @@ function App() {
     setCurrTo(e.target.value);
     console.log(e.target.value);
   }
-
-  async function handlingAPI() {
-    const res = await fetch(
-      `https://api.frankfurter.app/latest?amount=${tempCurrAmount}&from=${tempCurrFrom}&to=${tempCurrTo}`
-    );
-    if (!res.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await res.json();
-    setCurrTo(data.rates);
+  function handleAmount(e) {
+    setAmount(e.target.value);
   }
+  useEffect(() => {
+    async function handlingAPI() {
+      const res = await fetch(
+        `https://api.frankfurter.app/latest?amount=${amount}&from=${currFrom}&to=${currTo}`
+      );
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      setOutput(data.rates[currTo]);
+    }
+    handlingAPI();
+  }, [amount, currFrom, currTo]);
   return (
     <>
-      <input type="NUMBER" placeholder="Enter amount here..." />
+      <input
+        type="NUMBER"
+        placeholder="Enter amount here..."
+        onChange={handleAmount}
+      />
       <select onChange={handleCurrFrom}>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
@@ -43,10 +50,13 @@ function App() {
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
-        <option value="INR">INR</option>
+        <option value="INR" selected>
+          INR
+        </option>
       </select>
-      <button onClick={handlingAPI}>Calculate</button>
-      <p>output: {currTo.INR}</p>
+      <p>
+        {amount} {currFrom} is {output} {currTo}
+      </p>
     </>
   );
 }
