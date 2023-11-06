@@ -4,7 +4,7 @@ import "./App.css";
 // `https://api.frankfurter.app/latest?amount=${}&from=${}&to=${}`
 
 function App() {
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState(100);
   const [currFrom, setCurrFrom] = useState("USD");
   const [currTo, setCurrTo] = useState("INR");
   const [output, setOutput] = useState("");
@@ -21,6 +21,7 @@ function App() {
   }
   useEffect(() => {
     async function handlingAPI() {
+      if (currFrom === currTo) return;
       setIsLoading(true);
       const res = await fetch(
         `https://api.frankfurter.app/latest?amount=${amount}&from=${currFrom}&to=${currTo}`
@@ -38,7 +39,7 @@ function App() {
     <>
       <input
         type="NUMBER"
-        placeholder="Enter amount here..."
+        placeholder="100"
         onChange={handleAmount}
         disabled={isLoading}
       />
@@ -57,12 +58,18 @@ function App() {
         </option>
       </select>
       <p>
-        {!isLoading ? (
+        {currFrom !== currTo ? (
           <>
-            {amount} {currFrom} is {output} {currTo}
+            {!isLoading ? (
+              <>
+                {amount} {currFrom} is {output} {currTo}
+              </>
+            ) : (
+              ""
+            )}
           </>
         ) : (
-          ""
+          `${amount} ${currFrom}`
         )}
       </p>
     </>
