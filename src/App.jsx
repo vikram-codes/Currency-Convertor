@@ -6,7 +6,7 @@ import "./App.css";
 function App() {
   const [amount, setAmount] = useState(100);
   const [currFrom, setCurrFrom] = useState("USD");
-  const [currTo, setCurrTo] = useState("INR");
+  const [currTo, setCurrTo] = useState("USD");
   const [output, setOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,12 +50,12 @@ function App() {
         <option value="INR">INR</option>
       </select>
       <select onChange={handleCurrTo} disabled={isLoading}>
-        <option value="USD">USD</option>
+        <option value="USD" selected>
+          USD
+        </option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
-        <option value="INR" selected>
-          INR
-        </option>
+        <option value="INR">INR</option>
       </select>
       <p>
         {currFrom !== currTo ? (
