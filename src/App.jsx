@@ -3,7 +3,20 @@ import "./App.css";
 function App() {
   return (
     <>
-      <h1>Hello World</h1>
+      <input type="NUMBER" />
+      <select>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="CAD">CAD</option>
+        <option value="INR">INR</option>
+      </select>
+      <select>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="CAD">CAD</option>
+        <option value="INR">INR</option>
+      </select>
+      <p>OUTPUT:</p>
     </>
   );
 }
