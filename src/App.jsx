@@ -43,16 +43,14 @@ function App() {
         onChange={handleAmount}
         disabled={isLoading}
       />
-      <select onChange={handleCurrFrom} disabled={isLoading}>
+      <select onChange={handleCurrFrom} disabled={isLoading} defaultValue="USD">
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <select onChange={handleCurrTo} disabled={isLoading}>
-        <option value="USD" selected>
-          USD
-        </option>
+      <select onChange={handleCurrTo} disabled={isLoading} defaultValue="USD">
+        <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
