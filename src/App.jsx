@@ -8,6 +8,7 @@ function App() {
   const [currFrom, setCurrFrom] = useState("USD");
   const [currTo, setCurrTo] = useState("INR");
   const [output, setOutput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleCurrFrom(e) {
     setCurrFrom(e.target.value);
@@ -22,6 +23,7 @@ function App() {
   }
   useEffect(() => {
     async function handlingAPI() {
+      setIsLoading(true);
       const res = await fetch(
         `https://api.frankfurter.app/latest?amount=${amount}&from=${currFrom}&to=${currTo}`
       );
@@ -30,6 +32,7 @@ function App() {
       }
       const data = await res.json();
       setOutput(data.rates[currTo]);
+      setIsLoading(false);
     }
     handlingAPI();
   }, [amount, currFrom, currTo]);
@@ -39,14 +42,15 @@ function App() {
         type="NUMBER"
         placeholder="Enter amount here..."
         onChange={handleAmount}
+        disabled={isLoading}
       />
-      <select onChange={handleCurrFrom}>
+      <select onChange={handleCurrFrom} disabled={isLoading}>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <select onChange={handleCurrTo}>
+      <select onChange={handleCurrTo} disabled={isLoading}>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
@@ -55,7 +59,9 @@ function App() {
         </option>
       </select>
       <p>
-        {amount} {currFrom} is {output} {currTo}
+        <>
+          {amount} {currFrom} is {output} {currTo}
+        </>
       </p>
     </>
   );
