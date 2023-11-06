@@ -11,23 +11,16 @@ function App() {
   const currTo = "INR";
   const currAmount = 100;
 
-  function callApi() {
-    fetch(`https://api.frankfurter.app/latest?amount=100&from=USD&to=INR`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+  async function handlingAPI() {
+    const res = await fetch(
+      `https://api.frankfurter.app/latest?amount=${currAmount}&from=${currFrom}&to=${currTo}`
+    );
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await res.json();
+    setTo(data.rates);
   }
-  callApi();
-
   return (
     <>
       <input type="NUMBER" placeholder="Enter amount here..." />
@@ -43,7 +36,8 @@ function App() {
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <p>OUTPUT:</p>
+      <button onClick={() => handlingAPI}>Calculate</button>
+      <p>OUTPUT:{to.INR}</p>
     </>
   );
 }
