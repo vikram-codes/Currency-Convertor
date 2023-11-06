@@ -5,39 +5,48 @@ import "./App.css";
 
 function App() {
   const [amount, setAmount] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const currFrom = "USD";
-  const currTo = "INR";
-  const currAmount = 100;
+  const [currFrom, setCurrFrom] = useState("");
+  const [currTo, setCurrTo] = useState("");
+  const tempCurrFrom = "USD";
+  const tempCurrTo = "INR";
+  const tempCurrAmount = 100;
+
+  function handleCurrFrom(e) {
+    setCurrFrom(e.target.value);
+    console.log(e.target.value);
+  }
+  function handleCurrTo(e) {
+    setCurrTo(e.target.value);
+    console.log(e.target.value);
+  }
 
   async function handlingAPI() {
     const res = await fetch(
-      `https://api.frankfurter.app/latest?amount=${currAmount}&from=${currFrom}&to=${currTo}`
+      `https://api.frankfurter.app/latest?amount=${tempCurrAmount}&from=${tempCurrFrom}&to=${tempCurrTo}`
     );
     if (!res.ok) {
       throw new Error("Network response was not ok");
     }
     const data = await res.json();
-    setTo(data.rates);
+    setCurrTo(data.rates);
   }
   return (
     <>
       <input type="NUMBER" placeholder="Enter amount here..." />
-      <select>
+      <select onChange={handleCurrFrom}>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <select>
+      <select onChange={handleCurrTo}>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
       <button onClick={handlingAPI}>Calculate</button>
-      <p>OUTPUT:{to.INR}</p>
+      <p>output: {currTo.INR}</p>
     </>
   );
 }
