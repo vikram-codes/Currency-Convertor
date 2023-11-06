@@ -36,7 +36,7 @@ function App() {
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <button onClick={() => handlingAPI}>Calculate</button>
+      <button onClick={handlingAPI}>Calculate</button>
       <p>OUTPUT:{to.INR}</p>
     </>
   );
